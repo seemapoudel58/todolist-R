@@ -1,47 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import ToDo from "./Todo.jsx"; 
+import ToDo from "./Todo.jsx";
 
 const TodoWrapper = () => {
-  const [todos, setTodos] = useState([]);
-
+  const initialTodos = []; // Set initial todos as needed
+  const [todos, setTodos] = useState(initialTodos);
   const [value, setValue] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTodos((prevState) => [
-      ...prevState,
+    setTodos((prevTodos) => [
+      ...prevTodos,
       { id: uuidv4(), name: value, completed: false },
     ]);
     setValue("");
   };
 
+  const handleComplete = (todoId) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
 
-  const handleComplete= (todoId) =>{
-    setTodos((prevTodos)=> prevTodos.map((todo)=>{
-      if(todo.id === todoId){
-        return{ ...todo, completed: !todo.completed};
-      }else{
-        return todo;
-      }
+  const handleDelete = (todoId) => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== todoId));
+  };
 
-    }))
-  }
+  const handleRevert = () => {
+    setTodos(initialTodos);
+  };
 
-  const handleDelete =(todoId)=>{
-    setTodos((prevTodos)=>prevTodos.filter((todo)=>todo.id !== todoId));
-  }
+  useEffect(() => {
+    const storedTodos = localStorage.getItem("todos");
+    const parsedTodos = storedTodos ? JSON.parse(storedTodos) : [];
+    setTodos(parsedTodos);
+  }, []); // Load todos from local storage on component mount
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]); // Save todos to local storage whenever they change
 
   return (
     <div className="TodoWrapper">
-      <h1 style={
-        {
-          display:'flex',
-          justifyContent:'center',
-          fontFamily:'times roman',
-          fontSize:'35px'
-        }
-      }>Get Things Done!</h1>
+      <h1
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          fontFamily: "times roman",
+          fontSize: "35px",
+        }}
+      >
+        Get Things Done!
+      </h1>
       <form onSubmit={handleSubmit}>
         <input
           className="InputField"
@@ -56,12 +68,19 @@ const TodoWrapper = () => {
           +
         </button>
       </form>
-      {todos?.map((todo, index) => (
-        <ToDo task={todo} key={index} 
-        onComplete={() => handleComplete(todo.id)}
-        onDelete={() => handleDelete(todo.id)}
+      {todos?.map((todo) => (
+        <ToDo
+          key={todo.id}
+          task={todo}
+          onComplete={() => handleComplete(todo.id)}
+          onDelete={() => handleDelete(todo.id)}
         />
       ))}
+      {todos.length > 0 && (
+        <button className="RevertButton" onClick={handleRevert}>
+          Reset
+        </button>
+      )}
     </div>
   );
 };
