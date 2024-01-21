@@ -14,8 +14,23 @@ const TodoWrapper = () => {
       { id: uuidv4(), name: value, completed: false },
     ]);
     setValue("");
-    console.log(todos);
   };
+
+
+
+  const handleComplete= (todoId) =>{
+    setTodos((prevTodos)=> prevTodos.map((todo)=>{
+      if(todo.id === todoId){
+        return{ ...todo, completed: !todo.completed};
+      }else{
+        return todo;
+      }
+
+    }))
+  }
+
+ 
+
   return (
     <div className="TodoWrapper">
       <h1 style={
@@ -41,7 +56,8 @@ const TodoWrapper = () => {
         </button>
       </form>
       {todos?.map((todo, index) => (
-        <ToDo task={todo} key={index} />
+        <ToDo task={todo} key={index} 
+        onComplete={()=>handleComplete(todo.id)}/>
       ))}
     </div>
   );
