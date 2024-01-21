@@ -3,9 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 import ToDo from "./Todo.jsx";
 
 const TodoWrapper = () => {
-  const initialTodos = []; // Set initial todos as needed
-  const [todos, setTodos] = useState(initialTodos);
+  const [todos, setTodos] = useState([]);
   const [value, setValue] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const todosPerPage = 5;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,19 +29,25 @@ const TodoWrapper = () => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== todoId));
   };
 
-  const handleRevert = () => {
-    setTodos(initialTodos);
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const currentTodos = todos.slice(indexOfFirstTodo, indexOfLastTodo);
+
+  const totalPages = Math.ceil(todos.length / todosPerPage);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
   };
 
   useEffect(() => {
     const storedTodos = localStorage.getItem("todos");
     const parsedTodos = storedTodos ? JSON.parse(storedTodos) : [];
     setTodos(parsedTodos);
-  }, []); // Load todos from local storage on component mount
+  }, []); 
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]); // Save todos to local storage whenever they change
+  }, [todos]); 
 
   return (
     <div className="TodoWrapper">
@@ -68,18 +75,27 @@ const TodoWrapper = () => {
           +
         </button>
       </form>
-      {todos?.map((todo) => (
+      {currentTodos.map((todo, index) => (
         <ToDo
           key={todo.id}
           task={todo}
           onComplete={() => handleComplete(todo.id)}
           onDelete={() => handleDelete(todo.id)}
+          todoNumber={indexOfFirstTodo + index + 1}
         />
       ))}
-      {todos.length > 0 && (
-        <button className="RevertButton" onClick={handleRevert}>
-          Reset
-        </button>
+      {totalPages > 1 && (
+        <div className="Pagination">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={currentPage === index + 1 ? "ActivePage" : ""}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );
