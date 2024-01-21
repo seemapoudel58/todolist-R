@@ -17,7 +17,6 @@ const TodoWrapper = () => {
   };
 
 
-
   const handleComplete= (todoId) =>{
     setTodos((prevTodos)=> prevTodos.map((todo)=>{
       if(todo.id === todoId){
@@ -29,7 +28,9 @@ const TodoWrapper = () => {
     }))
   }
 
- 
+  const handleDelete =(todoId)=>{
+    setTodos((prevTodos)=>prevTodos.filter((todo)=>todo.id !== todoId));
+  }
 
   return (
     <div className="TodoWrapper">
@@ -57,7 +58,9 @@ const TodoWrapper = () => {
       </form>
       {todos?.map((todo, index) => (
         <ToDo task={todo} key={index} 
-        onComplete={()=>handleComplete(todo.id)}/>
+        onComplete={() => handleComplete(todo.id)}
+        onDelete={() => handleDelete(todo.id)}
+        />
       ))}
     </div>
   );

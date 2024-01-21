@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaCheckCircle, FaTrash } from 'react-icons/fa';
 
-const ToDo = ({task, onComplete}) => {
+const ToDo = ({task, onComplete, onDelete}) => {
   return (
     <div className='Todo'>
       <ul
@@ -11,7 +11,7 @@ const ToDo = ({task, onComplete}) => {
       </ul>
       <div>
         <FaCheckCircle className="FaCheckCircle" onClick={onComplete}/>
-        <FaTrash className="FaTrash" />
+        <FaTrash className="FaTrash" onClick={onDelete} />
       </div>
     </div>
   );
