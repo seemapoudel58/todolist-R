@@ -1,19 +1,18 @@
-import React from 'react'
-import { FaCheckCircle } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa";
+// Todo.jsx
+
+import React from 'react';
+import { FaCheckCircle, FaTrash } from 'react-icons/fa';
 
 const ToDo = (task) => {
   return (
-    <div  className='Todo'> 
-    <ul>
-      {task.task}
-    </ul>
-    <div>
-      <FaCheckCircle />
-      <FaTrash />
+    <div className='Todo'>
+      <ul>{task.task.name}</ul>
+      <div>
+        <FaCheckCircle className="FaCheckCircle" />
+        <FaTrash className="FaTrash" />
+      </div>
     </div>
-    </div>
-  )
+  );
 }
 
-export default ToDo
+export default ToDo;

@@ -1,0 +1,92 @@
+.TodoWrapper {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .TodoWrapper form {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .TodoWrapper input {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .TodoWrapper button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .TodoWrapper button:hover {
+    background-color: #0056b3;
+  }
+  
+  .Todo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+  
+  .Todo ul {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .Todo .FaCheckCircle,
+  .Todo .FaTrash {
+    cursor: pointer;
+    font-size: 20px;
+  }
+  .Todo .FaCheckCircle{
+    margin-right:18px;
+  }
+  
+  .Todo .FaCheckCircle:hover {
+    color: #28a745;
+  }
+  
+  .Todo .FaTrash:hover {
+    color: #dc3545;
+  }
+
+.InputField {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .SubmitButton {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 28px;
+  }
+  
+  .SubmitButton:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  
