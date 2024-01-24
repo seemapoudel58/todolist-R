@@ -10,10 +10,14 @@ const TodoWrapper = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTodos((prevTodos) => [
-      ...prevTodos,
-      { id: uuidv4(), name: value, completed: false },
-    ]);
+
+    const trimmedValue =value.trim();
+    if(trimmedValue !== ''){
+      setTodos((prevTodos) => [
+        ...prevTodos,
+        { id: uuidv4(), name: value, completed: false },
+      ]);
+    }
     setValue("");
     setCurrentPage(1); 
   };
